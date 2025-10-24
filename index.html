@@ -322,7 +322,7 @@
       🌍 Total Visitors: <span id="visitCount">Loading...</span>
     </div>
     <div style="position:absolute; bottom:10px; right:15px; font-size:14px; color:white;">
-      👥 Online: <span id="onlineUsers">Loading...</span>
+      👥 Join The Discord .gg/5mZjJCgj8r
     </div>
   </div>
 
@@ -436,13 +436,12 @@
   const fullscreenBtn = document.getElementById("fullscreenBtn");
 
 const games = [
-  "HTMS Community.html",
-  "1v1.LoL.html","Ages of Conflict.html","Aviamasters.html","Bad Time Simulator.html",
+  "1v1.LoL.html","Ages of Conflict.html","Aviamasters.html","Bad Time Simulator.html","Binding of Issac_ Wrath of the Lamb.html",
   "Baldi's Basics Classic Remastered.html","Baldi's Basics Plus.html","Ball Blast.html",
   "Basket Bros.html","Bendy and the Ink Machine.html","BlackJack.html","Bottle Jump 3D.html",
   "Bowmasters.html","Buckshot Roulette.html","BuildNow.gg.html","Candy Crush.html",
   "Chat Bot (A._.I).html","Cluster Rush.html","Cookie Clicker.html","Crossy Road.html","Cuphead.html",
-  "Drift Boss.html","Drift Hunters.html","Five Nights at Freddy's 2.html","Five Nights at Freddy's 3.html",
+  "Drift Boss.html","Deltatraveler.html","Deltarune.html","Undertale Yellow.html","Undertale.html","Drift Hunters.html","Five Nights at Freddy's 2.html","Five Nights at Freddy's 3.html",
   "Five Nights at Freddy's 4.html","Five Nights at Freddy's.html","Five Nights at Freddy's_ Sister Location.html",
   "Five Nights at Freddy's_ Ultimate Custom Night.html","Five Nights at Freddy's_ World.html","Five Nights at Winston's.html",
   "Flappy Bird.html","Fruit Ninja.html","Half Life.html","Hollow Knight.html",
@@ -482,7 +481,15 @@ const games = [
     let displayName = fnafDisplayNames[file] || file.replace(".html","").replace(/_/g," ");
     if(displayName.length > 28 && !fnafDisplayNames[file]) displayName = displayName.slice(0,25) + "...";
 
-play = "none";
+    const card = document.createElement("div");
+    card.className = "game-card";
+    card.textContent = displayName;
+    card.onclick = () => {
+      if (file === "Minecraft.html") {
+         openMinecraftModal(); // <-- Re-enable Minecraft modal
+    return;
+      }
+      gamesGrid.style.display = "none";
       gameContainer.style.display = "flex";
       gameIframe.style.display = "block";
       gameIframe.src = file;
@@ -622,4 +629,3 @@ document.addEventListener("keyup", (e) => {
 </script>
 </body>
 </html>
-
