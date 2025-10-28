@@ -33,75 +33,78 @@
   }
 
   /* --- LOADING SCREEN --- */
-  #loadingScreen {
+  #loader {
     position: fixed;
     inset: 0;
-    background: radial-gradient(circle at bottom, #0d0130, #000010 90%);
+    background: radial-gradient(circle at center, #080016, #000010 90%);
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    z-index: 9999;
+    z-index: 99999;
+    transition: opacity 1s ease, visibility 1s ease;
+  }
+
+  #loader.hidden {
     opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.6s ease;
+    visibility: hidden;
   }
 
-  #loadingScreen.active {
-    opacity: 1;
-    pointer-events: auto;
-  }
-
-  .loading-content {
-    text-align: center;
-  }
-
-  .loading-text {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 2rem;
-    background: linear-gradient(90deg, #80d0ff, #ff80f0, #80d0ff);
+  .loader-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    background: linear-gradient(90deg, #80d0ff, #a3e3ff, #80d0ff);
+    background-size: 200% auto;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    animation: gradientShift 3s linear infinite;
+    animation: shimmer 3s linear infinite;
     margin-bottom: 25px;
   }
 
-  @keyframes gradientShift {
+  @keyframes shimmer {
     0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+    100% { background-position: 200% 50%; }
   }
 
-  .progress-bar-container {
-    width: 300px;
+  .progress-container {
+    width: 260px;
     height: 12px;
-    border: 2px solid rgba(255,255,255,0.3);
-    border-radius: 10px;
+    border-radius: 20px;
     overflow: hidden;
-    background: rgba(255,255,255,0.05);
-    margin: 0 auto;
+    background: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 20px rgba(128,208,255,0.2);
   }
 
   .progress-bar {
     height: 100%;
-    width: 0;
-    background: white;
-    border-radius: 10px;
+    width: 0%;
+    background: linear-gradient(90deg, #80d0ff, #a3e3ff);
+    border-radius: 20px;
+    box-shadow: 0 0 20px #80d0ff;
     transition: width 0.2s ease;
   }
-</style>
-</head>
-<body>
 
-<!-- --- LOADING SCREEN --- -->
-<div id="loadingScreen">
-  <div class="loading-content">
-    <h1 class="loading-text">☆ HTMS Gaming Is Loading ☆</h1>
-    <div class="progress-bar-container">
-      <div class="progress-bar" id="progressBar"></div>
-    </div>
-  </div>
-</div>
+  .loader-stars {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    overflow: hidden;
+    z-index: -1;
+  }
 
+  .loader-star {
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+    opacity: 0.6;
+    animation: twinkle 4s infinite alternate;
+  }
+
+  @keyframes twinkle {
+    0% { opacity: 0.2; transform: scale(0.9); }
+    50% { opacity: 1; transform: scale(1.1); }
+    100% { opacity: 0.4; transform: scale(0.95); }
+  }
 
   /* --- GALAXY BACKGROUND --- */
   .starfield, .nebula, .galaxy {
@@ -117,12 +120,6 @@
     border-radius: 50%;
     opacity: 0.7;
     animation: twinkle 5s infinite alternate;
-  }
-
-  @keyframes twinkle {
-    0% { opacity: 0.2; }
-    50% { opacity: 0.8; }
-    100% { opacity: 0.3; }
   }
 
   .nebula {
@@ -154,7 +151,7 @@
     100% { transform: rotate(360deg); }
   }
 
-  /* --- MAIN CARD --- */
+    /* --- MAIN CARD --- */
   .card {
     background: var(--card-bg);
     padding: 30px;
@@ -197,8 +194,29 @@
   .msg { margin-top: 10px; color: #ff7575; font-size: 14px; }
 
   /* --- MAIN SITE --- */
-  .main-site { display: flex; flex-direction: column; width: 100%; height: 100%; z-index:2; position: relative;}
-  .content { flex: 1; padding: 25px; text-align: center; overflow: hidden; display: none; opacity:0; transition: opacity 0.6s ease; }
+  .main-site { 
+    display: flex; 
+    flex-direction: column; 
+    width: 100%; 
+    height: 100%; 
+    z-index:2; 
+    position: relative;
+    opacity: 0;
+    transition: opacity 1.2s ease;
+  }
+  .main-site.visible {
+    opacity: 1;
+  }
+
+  .content { 
+    flex: 1; 
+    padding: 25px; 
+    text-align: center; 
+    overflow: hidden; 
+    display: none; 
+    opacity:0; 
+    transition: opacity 0.6s ease; 
+  }
   .content.active { display:block; opacity:1;}
   .content h1 { font-size: 2rem; margin-bottom: 10px; }
 
@@ -244,7 +262,7 @@
     gap: 15px;
     margin-top: 20px;
     overflow-y: auto;
-    max-height: calc(100vh - 220px); /* allow grid to fit below header and not overflow offscreen */
+    max-height: calc(100vh - 220px);
     padding-right: 5px;
     scrollbar-width: thin;
     scrollbar-color: var(--accent) rgba(255,255,255,0.1);
@@ -326,7 +344,8 @@
     border: 1px solid rgba(128,208,255,0.06);
     text-align: center;
   }
-  .mc-title {
+
+    .mc-title {
     font-size: 1.1rem;
     margin-bottom: 12px;
     font-weight:700;
@@ -353,12 +372,21 @@
 </head>
 <body>
 
-<!-- Stars, Nebula, Galaxies -->
+<!-- ===================== LOADING SCREEN ===================== -->
+<div id="loader">
+  <div class="loader-stars" id="loaderStars"></div>
+  <div class="loader-title">Loading Your Galaxy...</div>
+  <div class="progress-container">
+    <div class="progress-bar" id="progressBar"></div>
+  </div>
+</div>
+
+<!-- ===================== BACKGROUND ===================== -->
 <div class="starfield" id="starfield"></div>
 <div class="nebula"></div>
 <div class="galaxy"></div>
 
-<!-- MAIN SITE (password removed — shows immediately) -->
+<!-- ===================== MAIN SITE ===================== -->
 <div class="main-site" id="mainSite">
   <div class="navbar">
     <div class="nav-left" id="homeBtn">🏠 Home</div>
@@ -378,7 +406,7 @@
     <p>You can share this with anyone</p>
     <p>Credits To Chris (christopherafton on discord)</p>
 
-    <!-- Visitor counters (bottom-left and bottom-right) -->
+    <!-- Visitor counters -->
     <div style="position:absolute; bottom:10px; left:15px; font-size:14px; color:white;">
       👥 Online: <span id="onlineUsers">Loading...</span>
     </div>
@@ -390,8 +418,10 @@
   <!-- ANNOUNCEMENT -->
   <div class="content" id="announcementTab">
     <h1>📢 Announcement</h1>
-    <p>Incase this link gets blocked keep this document incase: <a href="https://docs.google.com/document/d/1zGOlqKTPV8rY7JxXy9eJmT5V9oF0EJlhq3pKX7u8" target="_blank">Here</a></p>
-    <p>Hi totally not glazing my minecraft server but if you play the Minecraft in games please consider playing FadedSMP aka my server heres the IP 30068.ddnod.es enjoy</b></p>
+    <p>Incase this link gets blocked keep this document incase: 
+      <a href="https://docs.google.com/document/d/1zGOlqKTPV8rY7JxXy9eJmT5V9oF0EJlhq3pKX7u8" target="_blank">Here</a>
+    </p>
+    <p>Hi totally not glazing my minecraft server but if you play the Minecraft in games please consider playing FadedSMP aka my server heres the IP 30068.ddnod.es enjoy</p>
     <p>(Most Announcements Will be In The Doc)</p>
   </div>
 
@@ -426,7 +456,7 @@
   </div>
 </div>
 
-<!-- Minecraft modal (left in place in case you want to re-enable later) -->
+<!-- Minecraft modal -->
 <div class="mc-modal-backdrop" id="mcBackdrop" aria-hidden="true">
   <div class="mc-modal" role="dialog" aria-modal="true" aria-labelledby="mcTitle">
     <div class="mc-title" id="mcTitle">Minecraft — Choose a client</div>
@@ -440,233 +470,246 @@
   </div>
 </div>
 
-<script>
-  // --- TABS ---
-  const homeBtn = document.getElementById("homeBtn");
-  const gamesBtn = document.getElementById("gamesBtn");
-  const supportBtn = document.getElementById("supportBtn");
-  const announcementBtn = document.getElementById("announcementBtn");
-  const changelogBtn = document.getElementById("changelogBtn");
+  <script>
+/* ---------------- LOADER ---------------- */
+const loader = document.getElementById("loader");
+const progressBar = document.getElementById("progressBar");
+const mainSite = document.getElementById("mainSite");
+const loaderStars = document.getElementById("loaderStars");
 
-  const homeTab = document.getElementById("homeTab");
-  const gamesTab = document.getElementById("gamesTab");
-  const supportTab = document.getElementById("supportTab");
-  const announcementTab = document.getElementById("announcementTab");
-  const changelogTab = document.getElementById("changelogTab");
+// create loader stars
+for (let i = 0; i < 100; i++) {
+  const star = document.createElement("div");
+  star.className = "loader-star";
+  const size = Math.random() * 2 + "px";
+  star.style.width = size;
+  star.style.height = size;
+  star.style.top = Math.random() * 100 + "%";
+  star.style.left = Math.random() * 100 + "%";
+  star.style.animationDelay = Math.random() * 4 + "s";
+  loaderStars.appendChild(star);
+}
 
-  function showTab(tab){
-    [homeTab, gamesTab, supportTab, announcementTab, changelogTab].forEach(t=>{
-      t.classList.remove("active");
-      t.style.display = "none";
-    });
-    tab.style.display = "block";
-    tab.classList.add("active");
+// simulate loading
+let progress = 0;
+const fakeLoad = setInterval(() => {
+  progress += Math.random() * 8;
+  if (progress > 100) progress = 100;
+  progressBar.style.width = progress + "%";
+  if (progress >= 100) {
+    clearInterval(fakeLoad);
+    setTimeout(() => {
+      loader.classList.add("hidden");
+      mainSite.classList.add("visible");
+    }, 600);
   }
+}, 200);
 
-  homeBtn.onclick = () => showTab(homeTab);
-  gamesBtn.onclick = () => showTab(gamesTab);
-  supportBtn.onclick = () => showTab(supportTab);
-  announcementBtn.onclick = () => showTab(announcementTab);
-  changelogBtn.onclick = () => showTab(changelogTab);
+/* ---------------- SITE TABS ---------------- */
+const homeBtn = document.getElementById("homeBtn");
+const gamesBtn = document.getElementById("gamesBtn");
+const supportBtn = document.getElementById("supportBtn");
+const announcementBtn = document.getElementById("announcementBtn");
+const changelogBtn = document.getElementById("changelogBtn");
 
-  // --- GAME CARDS ---
-  const gamesGrid = document.getElementById("gamesGrid");
-  const gameContainer = document.getElementById("gameContainer");
-  const gameIframe = document.getElementById("gameIframe");
-  const backBtn = document.getElementById("backBtn");
-  const fullscreenBtn = document.getElementById("fullscreenBtn");
+const homeTab = document.getElementById("homeTab");
+const gamesTab = document.getElementById("gamesTab");
+const supportTab = document.getElementById("supportTab");
+const announcementTab = document.getElementById("announcementTab");
+const changelogTab = document.getElementById("changelogTab");
 
-  const games = [
-    "HTMS Community.html",
-    "1v1.LoL.html","Ages of Conflict.html","Aviamasters.html","Bad Time Simulator.html","Binding of Issac_ Wrath of the Lamb.html",
-    "Baldi's Basics Classic Remastered.html","Baldi's Basics Plus.html","Ball Blast.html",
-    "Basket Bros.html","Bendy and the Ink Machine.html","BlackJack.html","Bottle Jump 3D.html",
-    "Bowmasters.html","Buckshot Roulette.html","BuildNow.gg.html","Candy Crush.html",
-    "Chat Bot (A._.I).html","Cluster Rush.html","Cookie Clicker.html","Crossy Road.html","Cuphead.html",
-    "Drift Boss.html","Deltatraveler.html","Deltarune.html","Undertale Yellow.html","Undertale.html","Drift Hunters.html","Five Nights at Freddy's 2.html","Five Nights at Freddy's 3.html",
-    "Five Nights at Freddy's 4.html","Five Nights at Freddy's.html","Five Nights at Freddy's_ Sister Location.html",
-    "Five Nights at Freddy's_ Ultimate Custom Night.html","Five Nights at Freddy's_ World.html","Five Nights at Winston's.html",
-    "Flappy Bird.html","Fruit Ninja.html","Half Life.html","Hollow Knight.html",
-    "Jelly Drift.html","Karlson.html","Money Rush.html","Paper.io 2.html","Pixel Gun Survival.html","Pizza Tower.html",
-    "Plinko.html","Pokemon Emerald.html","Pokemon Red.html","PortaBoy+.html","R.E.P.O.html","Raft.html",
-    "Sandboxels.html","Slope 2.html","Slope.html","Solar Smash.html","Stickman Hook.html",
-    "Subway Surfers_ San Francisco.html","Superhot.html","Temple Run 2.html","That's Not My Neighbor.html","They Are Coming.html",
-    "Time Shooter 3_ SWAT.html","Tiny Fishing.html","Tomb Of The Mask.html","Turbo Stars.html","World Box.html",
-    "Getting Over It with Bennett Foddy.html","Retro Bowl College.html","Retro Bowl.html","Minecraft.html",
-    "Hotline Miami.html","A Dance of Fire and Ice.html","Basket Battle.html","BitPlanes.html","Boxing Random.html",
-    "Chess Classic.html","Coreball.html","Doom 2.html","DOOM.html","Football Bros.html","GladiHoppers.html",
-    "Gobble.html","Going Balls.html","Gun Clone.html","Happy Sheepies.html","Hide N Seek.html","High Heels.html",
-    "Minesweeper Mania.html","Mob Control HTML5.html","OMORI.html","People Playground.html","Road of Fury.html",
-    "Tall Man Run.html","Time Shooter 2.html","Time Shooter 1.html","Waterworks!.html","Wordle.html","Trivia Crack.html",
-    "The World's Hardest Game.html","The Man In The Window.html","Station 141.html","State.io.html","Stacky Dash.html",
-    "Snowbattle.io.html","Space Waves.html","Sandtris.html","Rooftop Snipers.html","Rooftop Snipers 2.html",
-    "Red Ball 4.html","Kindergarten.html","Kindergarten 2.html","Kindergarten 3.html","Granny.html","Granny 2.html",
-    "Granny 3.html","Fortzone Battle Royale.html","Fork n Sausage.html","Final Earth 2.html","Evil Glitch.html",
-    "Escape Road.html","Elastic Man.html","Draw Joust.html","Draw the Line.html","Doodle Jump.html","Choppy Orc.html",
-    "Celeste PICO.html","BitLife.html","Bank Robbery 2.html","Angry Birds.html","Angry Birds Showdown.html",
-    "Amanda the Adventurer.html","99 Balls.html","Tattletail.html","ShellShocker.html"
-  ];
-
-  const fnafDisplayNames = {
-    "Five Nights at Freddy's 2.html": "FNAF 2",
-    "Five Nights at Freddy's 3.html": "FNAF 3",
-    "Five Nights at Freddy's 4.html": "FNAF 4",
-    "Five Nights at Freddy's.html": "FNAF 1",
-    "Five Nights at Freddy's_ Sister Location.html": "Sister Location",
-    "Five Nights at Freddy's_ Ultimate Custom Night.html": "Ultimate Custom Night",
-    "Five Nights at Freddy's_ World.html": "FNAF World",
-    "Five Nights at Winston's.html": "Five Nights At Winstons",
-    "Binding of Issac_ Wrath of the Lamb.html": "BOIWOTL"
-  };
-
-  games.forEach(file => {
-    let displayName = fnafDisplayNames[file] || file.replace(".html","").replace(/_/g," ");
-    if(displayName.length > 28 && !fnafDisplayNames[file]) displayName = displayName.slice(0,25) + "...";
-
-    const card = document.createElement("div");
-    card.className = "game-card";
-    card.textContent = displayName;
-    card.onclick = () => {
-      if (file === "Minecraft.html") {
-         openMinecraftModal(); // <-- Re-enable Minecraft modal
-         return;
-      }
-      gamesGrid.style.display = "none";
-      gameContainer.style.display = "flex";
-      gameIframe.style.display = "block";
-      gameIframe.src = file;
-      showTab(gamesTab);
-    };
-    gamesGrid.appendChild(card);
+function showTab(tab){
+  [homeTab, gamesTab, supportTab, announcementTab, changelogTab].forEach(t=>{
+    t.classList.remove("active");
+    t.style.display = "none";
   });
+  tab.style.display = "block";
+  tab.classList.add("active");
+}
 
-  backBtn.onclick = () => {
-    gameContainer.style.display = "none";
-    gamesGrid.style.display = "grid";
-    gameIframe.src = "";
-  };
+homeBtn.onclick = () => showTab(homeTab);
+gamesBtn.onclick = () => showTab(gamesTab);
+supportBtn.onclick = () => showTab(supportTab);
+announcementBtn.onclick = () => showTab(announcementTab);
+changelogBtn.onclick = () => showTab(changelogTab);
 
-  fullscreenBtn.onclick = () => {
-    if(gameIframe.requestFullscreen){ gameIframe.requestFullscreen(); }
-    else if(gameIframe.webkitRequestFullscreen){ gameIframe.webkitRequestFullscreen(); }
-    else if(gameIframe.msRequestFullscreen){ gameIframe.msRequestFullscreen(); }
-  };
+/* ---------------- GAMES ---------------- */
+const gamesGrid = document.getElementById("gamesGrid");
+const gameContainer = document.getElementById("gameContainer");
+const gameIframe = document.getElementById("gameIframe");
+const backBtn = document.getElementById("backBtn");
+const fullscreenBtn = document.getElementById("fullscreenBtn");
 
-  const starfield = document.getElementById("starfield");
-  for(let i=0;i<300;i++){
-    const star = document.createElement("div");
-    star.className="star";
-    const size = Math.random()*2 +1+"px";
-    star.style.width = size;
-    star.style.height = size;
-    star.style.top = Math.random()*100+"%";
-    star.style.left = Math.random()*100+"%";
-    star.style.opacity = Math.random();
-    starfield.appendChild(star);
-  }
+const games = [
+  "HTMS Community.html","1v1.LoL.html","Ages of Conflict.html","Aviamasters.html","Bad Time Simulator.html",
+  "Binding of Issac_ Wrath of the Lamb.html","Baldi's Basics Classic Remastered.html","Baldi's Basics Plus.html",
+  "Ball Blast.html","Basket Bros.html","Bendy and the Ink Machine.html","BlackJack.html","Bottle Jump 3D.html",
+  "Bowmasters.html","Buckshot Roulette.html","BuildNow.gg.html","Candy Crush.html",
+  "Chat Bot (A._.I).html","Cluster Rush.html","Cookie Clicker.html","Crossy Road.html","Cuphead.html",
+  "Drift Boss.html","Deltatraveler.html","Deltarune.html","Undertale Yellow.html","Undertale.html",
+  "Drift Hunters.html","Five Nights at Freddy's 2.html","Five Nights at Freddy's 3.html","Five Nights at Freddy's 4.html",
+  "Five Nights at Freddy's.html","Five Nights at Freddy's_ Sister Location.html","Five Nights at Freddy's_ Ultimate Custom Night.html",
+  "Five Nights at Freddy's_ World.html","Five Nights at Winston's.html","Flappy Bird.html","Fruit Ninja.html","Half Life.html",
+  "Hollow Knight.html","Jelly Drift.html","Karlson.html","Money Rush.html","Paper.io 2.html","Pixel Gun Survival.html",
+  "Pizza Tower.html","Plinko.html","Pokemon Emerald.html","Pokemon Red.html","PortaBoy+.html","R.E.P.O.html","Raft.html",
+  "Sandboxels.html","Slope 2.html","Slope.html","Solar Smash.html","Stickman Hook.html",
+  "Subway Surfers_ San Francisco.html","Superhot.html","Temple Run 2.html","That's Not My Neighbor.html","They Are Coming.html",
+  "Time Shooter 3_ SWAT.html","Tiny Fishing.html","Tomb Of The Mask.html","Turbo Stars.html","World Box.html",
+  "Getting Over It with Bennett Foddy.html","Retro Bowl College.html","Retro Bowl.html","Minecraft.html",
+  "Hotline Miami.html","A Dance of Fire and Ice.html","Basket Battle.html","BitPlanes.html","Boxing Random.html",
+  "Chess Classic.html","Coreball.html","Doom 2.html","DOOM.html","Football Bros.html","GladiHoppers.html",
+  "Gobble.html","Going Balls.html","Gun Clone.html","Happy Sheepies.html","Hide N Seek.html","High Heels.html",
+  "Minesweeper Mania.html","Mob Control HTML5.html","OMORI.html","People Playground.html","Road of Fury.html",
+  "Tall Man Run.html","Time Shooter 2.html","Time Shooter 1.html","Waterworks!.html","Wordle.html","Trivia Crack.html",
+  "The World's Hardest Game.html","The Man In The Window.html","Station 141.html","State.io.html","Stacky Dash.html",
+  "Snowbattle.io.html","Space Waves.html","Sandtris.html","Rooftop Snipers.html","Rooftop Snipers 2.html",
+  "Red Ball 4.html","Kindergarten.html","Kindergarten 2.html","Kindergarten 3.html","Granny.html","Granny 2.html",
+  "Granny 3.html","Fortzone Battle Royale.html","Fork n Sausage.html","Final Earth 2.html","Evil Glitch.html",
+  "Escape Road.html","Elastic Man.html","Draw Joust.html","Draw the Line.html","Doodle Jump.html","Choppy Orc.html",
+  "Celeste PICO.html","BitLife.html","Bank Robbery 2.html","Angry Birds.html","Angry Birds Showdown.html",
+  "Amanda the Adventurer.html","99 Balls.html","Tattletail.html","ShellShocker.html"
+];
 
-  // --- Minecraft modal logic (left intact in case you want to re-enable later) ---
-  const mcBackdrop = document.getElementById("mcBackdrop");
-  const e18 = document.getElementById("eagler18Btn");
-  const e112 = document.getElementById("eagler112Btn");
-  const mcBackBtn = document.getElementById("mcBackBtn");
+const fnafDisplayNames = {
+  "Five Nights at Freddy's 2.html": "FNAF 2",
+  "Five Nights at Freddy's 3.html": "FNAF 3",
+  "Five Nights at Freddy's 4.html": "FNAF 4",
+  "Five Nights at Freddy's.html": "FNAF 1",
+  "Five Nights at Freddy's_ Sister Location.html": "Sister Location",
+  "Five Nights at Freddy's_ Ultimate Custom Night.html": "Ultimate Custom Night",
+  "Five Nights at Freddy's_ World.html": "FNAF World",
+  "Five Nights at Winston's.html": "Five Nights At Winstons",
+  "Binding of Issac_ Wrath of the Lamb.html": "BOIWOTL"
+};
 
-  function openMinecraftModal(){
-    showTab(gamesTab);
-    mcBackdrop.style.display = "flex";
-    mcBackdrop.style.opacity = "0";
-    requestAnimationFrame(()=> mcBackdrop.style.opacity = "1");
-  }
+games.forEach(file => {
+  let displayName = fnafDisplayNames[file] || file.replace(".html","").replace(/_/g," ");
+  if(displayName.length > 28 && !fnafDisplayNames[file]) displayName = displayName.slice(0,25) + "...";
 
-  function closeMinecraftModal(){
-    mcBackdrop.style.opacity = "0";
-    setTimeout(()=> mcBackdrop.style.display = "none", 180);
-  }
-
-  e18 && e18.addEventListener("click", ()=>{
-    closeMinecraftModal();
-    gamesGrid.style.display = "none";
-    gameContainer.style.display = "flex";
-    gameIframe.style.display = "block";
-    gameIframe.src = "Eaglercraft18.html";
-  });
-
-  e112 && e112.addEventListener("click", ()=>{
-    closeMinecraftModal();
-    gamesGrid.style.display = "none";
-    gameContainer.style.display = "flex";
-    gameIframe.style.display = "block";
-    gameIframe.src = "Eaglercraft12.html";
-  });
-
-  mcBackBtn && mcBackBtn.addEventListener("click", ()=>{
-    closeMinecraftModal();
-    showTab(gamesTab);
-  });
-
-  let escapeTimer;
-
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && mcBackdrop.style.display === "flex" && !escapeTimer) {
-      // Start a timer when Escape is first pressed
-      escapeTimer = setTimeout(() => {
-        closeMinecraftModal(); // closes after holding
-        escapeTimer = null; // reset
-      }, 500); // adjust 500ms to how long you want the hold
+  const card = document.createElement("div");
+  card.className = "game-card";
+  card.textContent = displayName;
+  card.onclick = () => {
+    if (file === "Minecraft.html") {
+      openMinecraftModal();
+      return;
     }
-  });
+    gamesGrid.style.display = "none";
+    gameContainer.style.display = "flex";
+    gameIframe.style.display = "block";
+    gameIframe.src = file;
+    showTab(gamesTab);
+  };
+  gamesGrid.appendChild(card);
+});
 
-  document.addEventListener("keyup", (e) => {
-    if (e.key === "Escape") {
-      clearTimeout(escapeTimer); // cancel if released too early
+backBtn.onclick = () => {
+  gameContainer.style.display = "none";
+  gamesGrid.style.display = "grid";
+  gameIframe.src = "";
+};
+
+fullscreenBtn.onclick = () => {
+  if(gameIframe.requestFullscreen){ gameIframe.requestFullscreen(); }
+  else if(gameIframe.webkitRequestFullscreen){ gameIframe.webkitRequestFullscreen(); }
+  else if(gameIframe.msRequestFullscreen){ gameIframe.msRequestFullscreen(); }
+};
+
+/* ---------------- STARFIELD ---------------- */
+const starfield = document.getElementById("starfield");
+for(let i=0;i<300;i++){
+  const star = document.createElement("div");
+  star.className="star";
+  const size = Math.random()*2 +1+"px";
+  star.style.width = size;
+  star.style.height = size;
+  star.style.top = Math.random()*100+"%";
+  star.style.left = Math.random()*100+"%";
+  star.style.opacity = Math.random();
+  starfield.appendChild(star);
+}
+
+/* ---------------- MINECRAFT MODAL ---------------- */
+const mcBackdrop = document.getElementById("mcBackdrop");
+const e18 = document.getElementById("eagler18Btn");
+const e112 = document.getElementById("eagler112Btn");
+const mcBackBtn = document.getElementById("mcBackBtn");
+
+function openMinecraftModal(){
+  showTab(gamesTab);
+  mcBackdrop.style.display = "flex";
+  mcBackdrop.style.opacity = "0";
+  requestAnimationFrame(()=> mcBackdrop.style.opacity = "1");
+}
+
+function closeMinecraftModal(){
+  mcBackdrop.style.opacity = "0";
+  setTimeout(()=> mcBackdrop.style.display = "none", 180);
+}
+
+e18 && e18.addEventListener("click", ()=>{
+  closeMinecraftModal();
+  gamesGrid.style.display = "none";
+  gameContainer.style.display = "flex";
+  gameIframe.style.display = "block";
+  gameIframe.src = "Eaglercraft18.html";
+});
+
+e112 && e112.addEventListener("click", ()=>{
+  closeMinecraftModal();
+  gamesGrid.style.display = "none";
+  gameContainer.style.display = "flex";
+  gameIframe.style.display = "block";
+  gameIframe.src = "Eaglercraft12.html";
+});
+
+mcBackBtn && mcBackBtn.addEventListener("click", ()=>{
+  closeMinecraftModal();
+  showTab(gamesTab);
+});
+
+let escapeTimer;
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape" && mcBackdrop.style.display === "flex" && !escapeTimer) {
+    escapeTimer = setTimeout(() => {
+      closeMinecraftModal();
       escapeTimer = null;
+    }, 500);
+  }
+});
+document.addEventListener("keyup", (e) => {
+  if (e.key === "Escape") {
+    clearTimeout(escapeTimer);
+    escapeTimer = null;
+  }
+});
+
+/* ---------------- VISITOR COUNTERS ---------------- */
+(function initCounters(){
+  fetch('https://api.countapi.xyz/hit/htmsgaming/visits')
+    .then(res => res.json())
+    .then(res => {
+      const el = document.getElementById('visitCount');
+      if(el && res && typeof res.value !== 'undefined') el.innerText = res.value;
+    })
+    .catch(()=> {
+      const el = document.getElementById('visitCount'); if(el) el.innerText = "N/A";
+    });
+
+  async function updateOnline(){
+    const el = document.getElementById('onlineUsers');
+    try{
+      const res = await fetch('/api/online');
+      if(!res.ok) throw new Error('no api');
+      const data = await res.json();
+      if(el) el.innerText = data.online ?? 0;
+    }catch(err){
+      if(el) el.innerText = "0";
     }
-  });
-
-  document.addEventListener("keyup", (e) => {
-    // If the key is Escape and the modal is open
-    if (e.key === "Escape" && mcBackdrop.style.display === "flex") {
-      // Clear the timer. The modal will not close if the key is released before the timer finishes
-      clearTimeout(escapeTimer);
-    }
-  });
-
-  showTab(homeTab);
-
-  /***********************
-   * Visitor counters
-   * - total visits uses CountAPI (no server needed)
-   * - online uses /api/online (create this serverless endpoint on Vercel)
-   ***********************/
-  (function initCounters(){
-    // Total visitors (CountAPI)
-    fetch('https://api.countapi.xyz/hit/htmsgaming/visits')
-      .then(res => res.json())
-      .then(res => {
-        const el = document.getElementById('visitCount');
-        if(el && res && typeof res.value !== 'undefined') el.innerText = res.value;
-      })
-      .catch(()=> {
-        const el = document.getElementById('visitCount'); if(el) el.innerText = "N/A";
-      });
-
-    // Live online users (calls your /api/online serverless route)
-    async function updateOnline(){
-      const el = document.getElementById('onlineUsers');
-      try{
-        const res = await fetch('/api/online');
-        if(!res.ok) throw new Error('no api');
-        const data = await res.json();
-        if(el) el.innerText = data.online ?? 0;
-      }catch(err){
-        // fallback: show 0 while serverless endpoint not present
-        if(el) el.innerText = "0";
-      }
-    }
-    updateOnline();
-    setInterval(updateOnline, 5000);
-  })();
-
+  }
+  updateOnline();
+  setInterval(updateOnline, 5000);
+})();
 </script>
 </body>
 </html>
