@@ -83,7 +83,7 @@
     100% { transform: rotate(360deg); }
   }
 
-  /* --- LOCK SCREEN --- */
+  /* --- MAIN CARD --- */
   .card {
     background: var(--card-bg);
     padding: 30px;
@@ -126,7 +126,7 @@
   .msg { margin-top: 10px; color: #ff7575; font-size: 14px; }
 
   /* --- MAIN SITE --- */
-  .main-site { display: none; flex-direction: column; width: 100%; height: 100%; z-index:2; position: relative;}
+  .main-site { display: flex; flex-direction: column; width: 100%; height: 100%; z-index:2; position: relative;}
   .content { flex: 1; padding: 25px; text-align: center; overflow: hidden; display: none; opacity:0; transition: opacity 0.6s ease; }
   .content.active { display:block; opacity:1;}
   .content h1 { font-size: 2rem; margin-bottom: 10px; }
@@ -287,17 +287,7 @@
 <div class="nebula"></div>
 <div class="galaxy"></div>
 
-<!-- Password Screen -->
-<div class="card" id="lockCard">
-  <h1>🚀 HTMS Gaming</h1>
-  <p>Enter password to enter the galaxy:</p>
-  <input type="password" id="pw" placeholder="Password">
-  <br>
-  <button id="unlockBtn">Unlock</button>
-  <div class="msg" id="msg"></div>
-</div>
-
-<!-- Main Site -->
+<!-- MAIN SITE (password removed — shows immediately) -->
 <div class="main-site" id="mainSite">
   <div class="navbar">
     <div class="nav-left" id="homeBtn">🏠 Home</div>
@@ -331,7 +321,7 @@
     <h1>📢 Announcement</h1>
     <p>Incase this link gets blocked keep this document incase: <a href="https://docs.google.com/document/d/1zGOlqKTPV8rY7JxXy9eJmT5V9oF0EJlhq3pKX7u8" target="_blank">Here</a></p>
     <p>Hi totally not glazing my minecraft server but if you play the Minecraft in games please consider playing FadedSMP aka my server heres the IP 30068.ddnod.es enjoy</b></p>
-    <p>(Most Announcements Will be In The Doc)<p>
+    <p>(Most Announcements Will be In The Doc)</p>
   </div>
 
   <!-- GAMES -->
@@ -380,20 +370,6 @@
 </div>
 
 <script>
-  // --- PASSWORD ---
-  const lockCard = document.getElementById("lockCard");
-  const mainSite = document.getElementById("mainSite");
-  const msg = document.getElementById("msg");
-  document.getElementById("unlockBtn").onclick = () => {
-    const input = document.getElementById("pw").value.trim();
-    if (input === "gamingontop") {
-      lockCard.style.display = "none";
-      mainSite.style.display = "flex";
-    } else {
-      msg.textContent = "❌ Wrong password!";
-    }
-  };
-
   // --- TABS ---
   const homeBtn = document.getElementById("homeBtn");
   const gamesBtn = document.getElementById("gamesBtn");
@@ -429,37 +405,36 @@
   const backBtn = document.getElementById("backBtn");
   const fullscreenBtn = document.getElementById("fullscreenBtn");
 
-const games = [
-  "HTMS Community.html",
-  "1v1.LoL.html","Ages of Conflict.html","Aviamasters.html","Bad Time Simulator.html","Binding of Issac_ Wrath of the Lamb.html",
-  "Baldi's Basics Classic Remastered.html","Baldi's Basics Plus.html","Ball Blast.html",
-  "Basket Bros.html","Bendy and the Ink Machine.html","BlackJack.html","Bottle Jump 3D.html",
-  "Bowmasters.html","Buckshot Roulette.html","BuildNow.gg.html","Candy Crush.html",
-  "Chat Bot (A._.I).html","Cluster Rush.html","Cookie Clicker.html","Crossy Road.html","Cuphead.html",
-  "Drift Boss.html","Deltatraveler.html","Deltarune.html","Undertale Yellow.html","Undertale.html","Drift Hunters.html","Five Nights at Freddy's 2.html","Five Nights at Freddy's 3.html",
-  "Five Nights at Freddy's 4.html","Five Nights at Freddy's.html","Five Nights at Freddy's_ Sister Location.html",
-  "Five Nights at Freddy's_ Ultimate Custom Night.html","Five Nights at Freddy's_ World.html","Five Nights at Winston's.html",
-  "Flappy Bird.html","Fruit Ninja.html","Half Life.html","Hollow Knight.html",
-  "Jelly Drift.html","Karlson.html","Money Rush.html","Paper.io 2.html","Pixel Gun Survival.html","Pizza Tower.html",
-  "Plinko.html","Pokemon Emerald.html","Pokemon Red.html","PortaBoy+.html","R.E.P.O.html","Raft.html",
-  "Sandboxels.html","Slope 2.html","Slope.html","Solar Smash.html","Stickman Hook.html",
-  "Subway Surfers_ San Francisco.html","Superhot.html","Temple Run 2.html","That's Not My Neighbor.html","They Are Coming.html",
-  "Time Shooter 3_ SWAT.html","Tiny Fishing.html","Tomb Of The Mask.html","Turbo Stars.html","World Box.html",
-  "Getting Over It with Bennett Foddy.html","Retro Bowl College.html","Retro Bowl.html","Minecraft.html",
-  "Hotline Miami.html","A Dance of Fire and Ice.html","Basket Battle.html","BitPlanes.html","Boxing Random.html",
-  "Chess Classic.html","Coreball.html","Doom 2.html","DOOM.html","Football Bros.html","GladiHoppers.html",
-  "Gobble.html","Going Balls.html","Gun Clone.html","Happy Sheepies.html","Hide N Seek.html","High Heels.html",
-  "Minesweeper Mania.html","Mob Control HTML5.html","OMORI.html","People Playground.html","Road of Fury.html",
-  "Tall Man Run.html","Time Shooter 2.html","Time Shooter 1.html","Waterworks!.html","Wordle.html","Trivia Crack.html",
-  "The World's Hardest Game.html","The Man In The Window.html","Station 141.html","State.io.html","Stacky Dash.html",
-  "Snowbattle.io.html","Space Waves.html","Sandtris.html","Rooftop Snipers.html","Rooftop Snipers 2.html",
-  "Red Ball 4.html","Kindergarten.html","Kindergarten 2.html","Kindergarten 3.html","Granny.html","Granny 2.html",
-  "Granny 3.html","Fortzone Battle Royale.html","Fork n Sausage.html","Final Earth 2.html","Evil Glitch.html",
-  "Escape Road.html","Elastic Man.html","Draw Joust.html","Draw the Line.html","Doodle Jump.html","Choppy Orc.html",
-  "Celeste PICO.html","BitLife.html","Bank Robbery 2.html","Angry Birds.html","Angry Birds Showdown.html",
-  "Amanda the Adventurer.html","99 Balls.html","Tattletail.html","ShellShocker.html
-];
-
+  const games = [
+    "HTMS Community.html",
+    "1v1.LoL.html","Ages of Conflict.html","Aviamasters.html","Bad Time Simulator.html","Binding of Issac_ Wrath of the Lamb.html",
+    "Baldi's Basics Classic Remastered.html","Baldi's Basics Plus.html","Ball Blast.html",
+    "Basket Bros.html","Bendy and the Ink Machine.html","BlackJack.html","Bottle Jump 3D.html",
+    "Bowmasters.html","Buckshot Roulette.html","BuildNow.gg.html","Candy Crush.html",
+    "Chat Bot (A._.I).html","Cluster Rush.html","Cookie Clicker.html","Crossy Road.html","Cuphead.html",
+    "Drift Boss.html","Deltatraveler.html","Deltarune.html","Undertale Yellow.html","Undertale.html","Drift Hunters.html","Five Nights at Freddy's 2.html","Five Nights at Freddy's 3.html",
+    "Five Nights at Freddy's 4.html","Five Nights at Freddy's.html","Five Nights at Freddy's_ Sister Location.html",
+    "Five Nights at Freddy's_ Ultimate Custom Night.html","Five Nights at Freddy's_ World.html","Five Nights at Winston's.html",
+    "Flappy Bird.html","Fruit Ninja.html","Half Life.html","Hollow Knight.html",
+    "Jelly Drift.html","Karlson.html","Money Rush.html","Paper.io 2.html","Pixel Gun Survival.html","Pizza Tower.html",
+    "Plinko.html","Pokemon Emerald.html","Pokemon Red.html","PortaBoy+.html","R.E.P.O.html","Raft.html",
+    "Sandboxels.html","Slope 2.html","Slope.html","Solar Smash.html","Stickman Hook.html",
+    "Subway Surfers_ San Francisco.html","Superhot.html","Temple Run 2.html","That's Not My Neighbor.html","They Are Coming.html",
+    "Time Shooter 3_ SWAT.html","Tiny Fishing.html","Tomb Of The Mask.html","Turbo Stars.html","World Box.html",
+    "Getting Over It with Bennett Foddy.html","Retro Bowl College.html","Retro Bowl.html","Minecraft.html",
+    "Hotline Miami.html","A Dance of Fire and Ice.html","Basket Battle.html","BitPlanes.html","Boxing Random.html",
+    "Chess Classic.html","Coreball.html","Doom 2.html","DOOM.html","Football Bros.html","GladiHoppers.html",
+    "Gobble.html","Going Balls.html","Gun Clone.html","Happy Sheepies.html","Hide N Seek.html","High Heels.html",
+    "Minesweeper Mania.html","Mob Control HTML5.html","OMORI.html","People Playground.html","Road of Fury.html",
+    "Tall Man Run.html","Time Shooter 2.html","Time Shooter 1.html","Waterworks!.html","Wordle.html","Trivia Crack.html",
+    "The World's Hardest Game.html","The Man In The Window.html","Station 141.html","State.io.html","Stacky Dash.html",
+    "Snowbattle.io.html","Space Waves.html","Sandtris.html","Rooftop Snipers.html","Rooftop Snipers 2.html",
+    "Red Ball 4.html","Kindergarten.html","Kindergarten 2.html","Kindergarten 3.html","Granny.html","Granny 2.html",
+    "Granny 3.html","Fortzone Battle Royale.html","Fork n Sausage.html","Final Earth 2.html","Evil Glitch.html",
+    "Escape Road.html","Elastic Man.html","Draw Joust.html","Draw the Line.html","Doodle Jump.html","Choppy Orc.html",
+    "Celeste PICO.html","BitLife.html","Bank Robbery 2.html","Angry Birds.html","Angry Birds Showdown.html",
+    "Amanda the Adventurer.html","99 Balls.html","Tattletail.html","ShellShocker.html"
+  ];
 
   const fnafDisplayNames = {
     "Five Nights at Freddy's 2.html": "FNAF 2",
@@ -469,7 +444,7 @@ const games = [
     "Five Nights at Freddy's_ Sister Location.html": "Sister Location",
     "Five Nights at Freddy's_ Ultimate Custom Night.html": "Ultimate Custom Night",
     "Five Nights at Freddy's_ World.html": "FNAF World",
-    "Five Nights at Winston's.html": "Five Nights At Winstons"
+    "Five Nights at Winston's.html": "Five Nights At Winstons",
     "Binding of Issac_ Wrath of the Lamb.html": "BOIWOTL"
   };
 
@@ -483,7 +458,7 @@ const games = [
     card.onclick = () => {
       if (file === "Minecraft.html") {
          openMinecraftModal(); // <-- Re-enable Minecraft modal
-    return;
+         return;
       }
       gamesGrid.style.display = "none";
       gameContainer.style.display = "flex";
@@ -558,33 +533,32 @@ const games = [
     showTab(gamesTab);
   });
 
-let escapeTimer;
+  let escapeTimer;
 
-document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape" && mcBackdrop.style.display === "flex" && !escapeTimer) {
-    // Start a timer when Escape is first pressed
-    escapeTimer = setTimeout(() => {
-      closeMinecraftModal(); // closes after holding
-      escapeTimer = null; // reset
-    }, 500); // adjust 500ms to how long you want the hold
-  }
-});
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && mcBackdrop.style.display === "flex" && !escapeTimer) {
+      // Start a timer when Escape is first pressed
+      escapeTimer = setTimeout(() => {
+        closeMinecraftModal(); // closes after holding
+        escapeTimer = null; // reset
+      }, 500); // adjust 500ms to how long you want the hold
+    }
+  });
 
-document.addEventListener("keyup", (e) => {
-  if (e.key === "Escape") {
-    clearTimeout(escapeTimer); // cancel if released too early
-    escapeTimer = null;
-  }
-});
+  document.addEventListener("keyup", (e) => {
+    if (e.key === "Escape") {
+      clearTimeout(escapeTimer); // cancel if released too early
+      escapeTimer = null;
+    }
+  });
 
-
-document.addEventListener("keyup", (e) => {
-  // If the key is Escape and the modal is open
-  if (e.key === "Escape" && mcBackdrop.style.display === "flex") {
-    // Clear the timer. The modal will not close if the key is released before the timer finishes
-    clearTimeout(escapeTimer);
-  }
-});
+  document.addEventListener("keyup", (e) => {
+    // If the key is Escape and the modal is open
+    if (e.key === "Escape" && mcBackdrop.style.display === "flex") {
+      // Clear the timer. The modal will not close if the key is released before the timer finishes
+      clearTimeout(escapeTimer);
+    }
+  });
 
   showTab(homeTab);
 
@@ -625,4 +599,3 @@ document.addEventListener("keyup", (e) => {
 </script>
 </body>
 </html>
-
