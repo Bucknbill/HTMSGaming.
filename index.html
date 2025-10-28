@@ -32,6 +32,77 @@
     position: relative;
   }
 
+  /* --- LOADING SCREEN --- */
+  #loadingScreen {
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(circle at bottom, #0d0130, #000010 90%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.6s ease;
+  }
+
+  #loadingScreen.active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .loading-content {
+    text-align: center;
+  }
+
+  .loading-text {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2rem;
+    background: linear-gradient(90deg, #80d0ff, #ff80f0, #80d0ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradientShift 3s linear infinite;
+    margin-bottom: 25px;
+  }
+
+  @keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  .progress-bar-container {
+    width: 300px;
+    height: 12px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-radius: 10px;
+    overflow: hidden;
+    background: rgba(255,255,255,0.05);
+    margin: 0 auto;
+  }
+
+  .progress-bar {
+    height: 100%;
+    width: 0;
+    background: white;
+    border-radius: 10px;
+    transition: width 0.2s ease;
+  }
+</style>
+</head>
+<body>
+
+<!-- --- LOADING SCREEN --- -->
+<div id="loadingScreen">
+  <div class="loading-content">
+    <h1 class="loading-text">☆ HTMS Gaming Is Loading ☆</h1>
+    <div class="progress-bar-container">
+      <div class="progress-bar" id="progressBar"></div>
+    </div>
+  </div>
+</div>
+
+
   /* --- GALAXY BACKGROUND --- */
   .starfield, .nebula, .galaxy {
     position: absolute;
