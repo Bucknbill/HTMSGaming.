@@ -298,10 +298,9 @@
     text-align: center;
   }
   .game-card:hover { transform: scale(1.05); box-shadow: 0 0 15px var(--accent); }
-
-  .game-container { display: none; flex-direction: column; height: 100%; }
+.game-container { display: none; flex-direction: column; max-height: 80vh; overflow-y: auto; }
   .game-controls { display: flex; justify-content: flex-end; gap: 10px; margin-bottom: 10px; }
-  .game-iframe { width: 100%; flex: 1; border: none; border-radius: 12px; }
+.game-iframe { width: 100%; min-height: 600px; border: none; border-radius: 12px; }
 
   /* --- RGB Header --- */
   .rgb-text {
