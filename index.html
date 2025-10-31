@@ -709,6 +709,16 @@ document.addEventListener("keyup", (e) => {
   updateOnline();
   setInterval(updateOnline, 5000);
 })();
+    /* ---------------- AUTO FOCUS EAGLERCRAFT ---------------- */
+gameIframe.addEventListener("load", () => {
+  const src = gameIframe.src || "";
+  if (src.includes("Eaglercraft")) {
+    setTimeout(() => {
+      gameIframe.focus();
+      try { gameIframe.contentWindow.focus(); } catch (err) {}
+    }, 500);
+  }
+});
 </script>
 </body>
 </html>
